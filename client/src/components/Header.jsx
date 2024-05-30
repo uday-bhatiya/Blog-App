@@ -32,28 +32,43 @@ const Header = () => {
   }, [darkMode]);
 
   return (
-     <nav className="bg-white dark:bg-gray-800 p-4 shadow-md">
+     <nav className="bg-white dark:bg-gray-800 p-4 shadow-md relative">
       <div className="container mx-auto flex justify-between items-center">
       <button
             onClick={toggleMenu}
-            className="sm:hidden text-gray-800 dark:text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="lg:hidden text-gray-800 dark:text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             {isMenuOpen ? <MdOutlineClose /> : <RiMenu2Fill />} 
           </button>
         <div className="text-2xl font-bold text-gray-800 dark:text-white">
           Blogger
         </div>
-        <div className={`sm:flex ${isMenuOpen ? 'block' : 'hidden'} space-x-4 mt-4 sm:mt-0`}>
-        <a href="#home" className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+        <div className='lg:flex hidden space-x-4 mt-4 sm:mt-0'>
+        <Link to="/" className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
           Home
-        </a>
-        <a href="#about" className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+        </Link>
+        <Link to="/about" className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
           About
-        </a>
-        <a href="#project" className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+        </Link>
+        <Link to="/project" className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
           Project
-        </a>
+        </Link>
       </div>
+          {
+            isMenuOpen && (
+              <div className='block lg:hidden h-min w-full left-0 absolute top-16 py-4 sm:mt-0 shadow-md bg-white dark:bg-gray-800'>
+              <Link to="/" onClick={ () => setIsMenuOpen(false)} className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+                Home
+              </Link>
+              <Link to="/about" onClick={ () => setIsMenuOpen(false)} className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+                About
+              </Link>
+              <Link to="/project" onClick={ () => setIsMenuOpen(false)} className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
+                Project
+              </Link>
+            </div>
+            )
+          }
         <div className="flex items-center space-x-4">
           <div className={`relative ${isSearchVisible ? 'block' : 'hidden'} sm:block`}>
             <input

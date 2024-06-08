@@ -1,7 +1,8 @@
 import {ApiError} from "../utils/ApiError.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 import { User } from "../models/user.model.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken"
 
 const signup = async (req, res) => {
 
@@ -39,4 +40,31 @@ const signup = async (req, res) => {
     
 }
 
-export {signup}
+const signin = async (req, res) => {
+    const {username, password} = req.body
+
+    if (!(username, password) ) {
+        throw new ApiError(401, "All fields are required");
+    }
+
+    try {
+        const user = await User.findOne({username});
+        if (!user) {
+            throw new ApiError(401,"User not found");
+        }
+        const validPassword = bcrypt.compareSync(password, user.password)
+        if (!validPassword) {
+            throw new ApiError(402, "Invalid password");
+        }
+        const token = jwt.sign(
+            { id: user._id},
+            process.env.JWT_SECRET
+        );
+        return res.status(200).json( new ApiResponse(201, user, "Signin successfully"))
+    } catch (error) {
+        
+    }
+
+}
+
+export {signup, signin}
